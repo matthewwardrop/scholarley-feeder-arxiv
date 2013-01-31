@@ -23,6 +23,7 @@ public class FeedParser {
         public String doc_abstract;
         public List<String> authors = new ArrayList<String>();
         public String arxiv_id;
+        public String doi;
         public String institution;
     }
 	   
@@ -75,8 +76,10 @@ public class FeedParser {
                 doc.doc_abstract = readSummary(parser);
             } else if (name.equals("link") && parser.getAttributeValue(null, "rel").equals("alternate")) {
                 doc.link = readLink(parser);
-            } else if (name.equals("link") && parser.getAttributeValue(null, "rel").equals("related")) {
+            } else if (name.equals("link") && parser.getAttributeValue(null, "rel").equals("related") && parser.getAttributeValue(null, "title").equals("pdf")) {
             	doc.attachment = readAttachmentLink(parser);
+            } else if (name.equals("arxiv:doi")) {
+            	doc.doi = readDoi(parser);
             } else if (name.equals("author")) {
             	doc.authors.add(readAuthor(parser));
             } else {
@@ -96,6 +99,13 @@ public class FeedParser {
         parser.require(XmlPullParser.START_TAG, ns, "title");
         String title = readText(parser);
         parser.require(XmlPullParser.END_TAG, ns, "title");
+        return title;
+    }
+    
+    private String readDoi(XmlPullParser parser) throws IOException, XmlPullParserException {
+        parser.require(XmlPullParser.START_TAG, ns, "arxiv:doi");
+        String title = readText(parser);
+        parser.require(XmlPullParser.END_TAG, ns, "arxiv:doi");
         return title;
     }
     

@@ -43,9 +43,11 @@ public class AddDocument extends Activity {
 		
 		intent.putExtra("feeder:name", "Scholarley arXiv Feeder");
 		intent.putExtra("feeder:attachment", document.attachment);
+		intent.putExtra("feeder:attachment_mime", "application/pdf");
 		intent.putExtra("feeder:uri", this.getIntent().getDataString());
 		intent.putExtra("document:title", document.title);
 		intent.putExtra("document:arxiv", document.arxiv_id);
+		intent.putExtra("document:doi", document.doi);
 		intent.putExtra("document:abstract", document.doc_abstract);
 		intent.putExtra("document:url", document.link);
 		intent.putExtra("document:type", "Journal Article");
